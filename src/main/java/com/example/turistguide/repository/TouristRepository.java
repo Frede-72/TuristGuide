@@ -71,7 +71,7 @@ public class TouristRepository {
         jdbcTemplate.update("UPDATE tourist_attractions SET description=?, city=?, ticket_price_in_DKK=? where name=?",
                 touristAttraction.getDescription(), touristAttraction.getCity(),
                 touristAttraction.getTicketPriceInDKK(), touristAttraction.getName());
-        jdbcTemplate.update("DELETE FROM Tags where attraction_name=?",touristAttraction.getName());
+        jdbcTemplate.update("DELETE FROM Tags where attraction_name=?", touristAttraction.getName());
         for (String tag : touristAttraction.getTags()) {
             String sqlTag = "INSERT IGNORE INTO tags value(?,?)";
             jdbcTemplate.update(sqlTag, touristAttraction.getName(), tag);
@@ -87,9 +87,9 @@ public class TouristRepository {
 
 
     public List<String> getCities() {
-        List<String> list = new ArrayList<>();
-        list.add("Sweden");
-        return list;
+        String sql = "SELECT * FROM city";
+        List<String> cities = jdbcTemplate.query(sql, new CityRowMapper());
+        return cities;
     }
 
     public List<String> getTags() {
